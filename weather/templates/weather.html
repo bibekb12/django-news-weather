@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <title>Weather App</title>
+  </head>
+  <body class="container text-center">
+    <section class="container">
+      <h1>Weather information</h1>
+      <h2>Searched for city: {{ city }}</h2>
+      <form method="POST" action="">
+        {% csrf_token %}
+        <input
+          type="text"
+          name="city"
+          placeholder="Enter city"
+          value="{{city}}"
+          required
+          class="form-control"
+        />
+        <button type="submit" class="btn btn-primary mt-2">
+          Try Weather Info
+        </button>
+      </form>
+      {% if data.status == "succes" %}
+      <p>Country Code: {{ data.country_code }}</p>
+      <p>Temperature: {{ data.temperature }} ℃</p>
+      <p>Pressure: {{ data.pressure }}</p>
+      <p>Humidity: {{ data.humidity }}</p>
+      <p>Description: {{ data.description }}</p>
+      <img
+        src="http://openweathermap.org/img/w/{{ data.icon }}.png"
+        alt="Weather icon"
+      />
+      {% endif %} else {
+      <p>Location</p>
+      }
+    </section>
+    <section class="container">
+      <h4>Weather History</h4>
+      <div class="table-responsive">
+        <table class="table table-primary fa-align-right">
+          <thead>
+            <tr>
+              <th scope="col">History</th>
+            </tr>
+            <td>{{ weather.city}}</td>
+            <td>{{ weather.temperature }}</td>
+            <td>{{ weather.pressure }}</td>
+            <td>{{ weather.icon }}</td>
+          </thead>
+        </table>
+      </div>
+    </section>
+    <button class="btn btn-primary mt-2 ml-2">
+      <a href="{% url 'homepage' %}" class="text-white">Home</a>
+    </button>
+  </body>
+</html>
