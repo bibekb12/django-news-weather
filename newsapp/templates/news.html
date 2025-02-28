@@ -24,27 +24,26 @@
       <h6>Top headlines of Country: {{ country }}</h6>
     </header>
 
-    <main class="container mt-4" >
+    <main class="row" >
       {% if error %}
       <div class="alert alert-danger">{{ error }}</div>
       {% else %}
 
         {% for article in page_obj %}
         <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-          <div class="card shadow"  >
+          <div class="card shadow align-content-center">
             <div class="card-header text-bg-primary">
               {{ article.source.name }}
             </div>
             <div class="card-body">
               <img
                 src="{{ article.urlToImage }}"
-                class="card-img-top"
-                alt="..."
+                class="img-fluid w-100 h-50"
               />
               <h5 class="card-title" id="{{article.title}}">
-                {{ article.title }}
+                {{ article.title | truncatechars:50 }}
               </h5>
-              <p class="card-text">{{ article.description }}</p>
+              <p class="card-text">{{ article.description | truncatechars:100 }}</p>
               <a
                 href="{{ article.url }}"
                 class="btn btn-outline-primary"

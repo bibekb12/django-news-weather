@@ -13,8 +13,8 @@ def news_view(request):
         params = {
             'apiKey': NEWS_API_KEY,
             'country': country,
-            'pageSize': 4,
-            'page': 1
+            'pageSize': 20,
+            'page': 2
         }
         try:
             req = requests.get(url, params=params) # sending the urls and other parameters for response
