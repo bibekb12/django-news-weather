@@ -2,6 +2,8 @@ import json
 from django.shortcuts import render
 import urllib.request
 from django.conf import settings
+
+from weather.models import Weather
 from .serializers import weatherCreateSerializer, weatherListSerializer
 
 
@@ -13,12 +15,14 @@ def news(request):
 
 # Creating the view of weather
 def weather_view(request):
+    data = {}
+    city =''
     if request.method == "POST":
-        city = request.POST.get("city", "")
+        city = request.POST.get("city")
         try: 
             source = urllib.request.urlopen('http://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=' + settings.WEATHER_API_KEY + '&units=metric').read()
         except Exception as e:
-            return render(request, "weather.html", {"data": {"status": "fail"}})
+            return render(request, "weather.html", {"status": e})
         
         list_of_data = json.loads(source)
         
@@ -39,12 +43,10 @@ def weather_view(request):
         else:
             return render(request, "weather.html", {"data": {"message": "Unexpected error"}})
         
+    elif request.method == "GET":
+        weather = Weather.objects.all()
+        serial = weatherListSerializer(weather, many=True)
+        return render(request, "weather.html", {"dataHistory": serial.data})
+    
     else:
         return render(request, "weather.html", {"data": {}})
-
-
-def weather_list(request):
-    if request.method == "GET":
-        weather = weatherListSerializer.get()
-        print(weather.data)
-        return render(request, "weather.html", {"data": weather.data})

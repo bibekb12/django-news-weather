@@ -18,4 +18,5 @@ class weatherListSerializer(serializers.ModelSerializer):
 
     def get(request):
         data = Weather.objects.all()
+        print(data)
         return data

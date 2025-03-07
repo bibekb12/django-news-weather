@@ -9,6 +9,7 @@ class Weather(models.Model):
     humidity = models.CharField(max_length=10)
     description = models.CharField(max_length=100)
     icon = models.CharField(max_length=10)
+    postdate = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
         return self.city

@@ -19,7 +19,7 @@
           type="text"
           name="city"
           placeholder="Enter city"
-          value="{{city}}"
+          value="{{ city }}"
           required
           class="form-control"
         />
@@ -27,7 +27,11 @@
           Try Weather Info
         </button>
       </form>
-      {% if data.status == "succes" %}
+      {% if data.status == '' %}
+      <p>No live data captured</p>
+      {% elif data.status == 'fail' %}
+      <p>{{ data.message }}</p>
+      {% elif data.status == 'success' %}
       <p>Country Code: {{ data.country_code }}</p>
       <p>Temperature: {{ data.temperature }} ℃</p>
       <p>Pressure: {{ data.pressure }}</p>
@@ -37,25 +41,36 @@
         src="http://openweathermap.org/img/w/{{ data.icon }}.png"
         alt="Weather icon"
       />
-      {% endif %} else {
-      <p>Location</p>
-      }
+      {% endif %}
     </section>
-    <section class="container">
-      <h4>Weather History</h4>
-      <div class="table-responsive">
-        <table class="table table-primary fa-align-right">
-          <thead>
-            <tr>
-              <th scope="col">History</th>
-            </tr>
-            <td>{{ weather.city}}</td>
-            <td>{{ weather.temperature }}</td>
-            <td>{{ weather.pressure }}</td>
-            <td>{{ weather.icon }}</td>
-          </thead>
-        </table>
-      </div>
+    <section class="container mt-4">
+      <h2>Weather History</h2>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>City</th>
+            <th>Country Code</th>
+            <th>Temperature</th>
+            <th>Pressure</th>
+            <th>Humidity</th>
+            <th>Description</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for history in dataHistory %}
+          <tr>
+            <td>{{ history.city }}</td>
+            <td>{{ history.country_code }}</td>
+            <td>{{ history.temperature }} ℃</td>
+            <td>{{ history.pressure }}</td>
+            <td>{{ history.humidity }}</td>
+            <td>{{ history.description }}</td>
+            <td>{{ history.created_at }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </section>
     <button class="btn btn-primary mt-2 ml-2">
       <a href="{% url 'homepage' %}" class="text-white">Home</a>

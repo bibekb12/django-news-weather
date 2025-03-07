@@ -52,6 +52,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+     "django.middleware.cache.UpdateCacheMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.cache.FetchFromCacheMiddleware",
 ]
 
 ROOT_URLCONF = 'assiegnment.urls'
@@ -134,3 +137,12 @@ WEATHER_API_KEY = '62ef74fc34ffce072c8acc8205ed6ecb' # this is bibek's api key ,
 # NEWS_API_KEY ="dcbcfade-38ea-4b0b-b066-d51189eeb6f5" #miwa's api key
 
 NEWS_API_KEY = "223bab133f184a14a9619631f40d6404" # this is miwa's api key, change it to yours for newsapi.org
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+        "LOCATION": "assiegnment/django_cache",
+        "TIMEOUT": 6,
+        "OPTIONS": {"MAX_ENTRIES": 1000},
+    }
+}
